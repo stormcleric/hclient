@@ -9,6 +9,8 @@ import {
   highlight,
   note,
   show,
+  fileCode,
+  fileCodeFilled,
 } from '@hypothesis/frontend-shared/lib/icons';
 
 // Different variant than shared icon
@@ -26,6 +28,8 @@ export const annotatorIcons = {
   caution,
   'caret-left': caretLeft,
   'caret-right': caretRight,
+  'file-code': fileCode,
+  'file-code-filled': fileCodeFilled,
   hide,
   highlight,
   note,

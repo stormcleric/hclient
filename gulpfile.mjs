@@ -164,3 +164,18 @@ gulp.task(
     })
   )
 );
+
+// Unit and integration testing tasks.
+//
+// SPECIFIC TESTS FOR ME
+gulp.task(
+  'mytest',
+  gulp.parallel('build-css', () =>
+    runTests({
+      bootstrapFile: 'src/sidebar/test/bootstrap.js',
+      karmaConfig: 'src/karma.config.js',
+      rollupConfig: 'rollup-tests.config.mjs',
+      testsPattern: 'src/**/*sidebar-test.js',
+    })
+  )
+);

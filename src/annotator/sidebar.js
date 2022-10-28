@@ -78,6 +78,32 @@ function createSidebarIframe(config) {
 }
 
 /**
+ * loop through items to enable or disable dark mode.
+ *
+ * @param {Node} element
+ * @param {boolean} enabled
+ */
+export function loopToDarkMode(element, enabled) {
+  // do some thing with the node here
+  let nodes = element.childNodes;
+  for (let i = 0; i < nodes.length; i++) {
+    if (!nodes[i]) {
+      continue;
+    }
+
+    if (enabled && nodes[i].classList) {
+      nodes[i].classList.replace('bg-grey-2', 'bg-grey-8');
+    } else if (!enabled && nodes[i].classList) {
+      nodes[i].classList.replace('bg-grey-8', 'bg-grey-2');
+    }
+
+    if (nodes[i].childNodes.length > 0) {
+      loopToDarkMode(nodes[i], enabled);
+    }
+  }
+}
+
+/**
  * The `Sidebar` class creates (1) the sidebar application iframe, (2) its container,
  * as well as (3) the adjacent controls.
  *
@@ -184,6 +210,7 @@ export class Sidebar {
       },
       setSidebarOpen: open => (open ? this.open() : this.close()),
       setHighlightsVisible: show => this.setHighlightsVisible(show),
+      setDarkModeEnabled: enable => this.setDarkModeEnabled(enable),
     });
 
     if (config.theme === 'clean') {
@@ -622,6 +649,26 @@ export class Sidebar {
 
     // Notify sidebar app of change which will in turn reflect state to guest frames.
     this._sidebarRPC.call('setHighlightsVisible', visible);
+  }
+
+  /**
+   * Toggle dark mode in toolbar
+   *
+   * @param {boolean} enabled
+   */
+  setDarkModeEnabled(enabled) {
+    this.toolbar.darkModeEnabled = enabled;
+
+    // alert("Dark Mode is enabled: " + enabled);
+
+    if (this.iframeContainer) {
+      loopToDarkMode(this.iframeContainer, enabled);
+    }
+
+    this._updateLayoutState(true);
+
+    // Notify sidebar app of change which will in turn reflect state to guest frames.
+    //this._sidebarRPC.call('setDarkModeEnabled', enabled);
   }
 
   /**

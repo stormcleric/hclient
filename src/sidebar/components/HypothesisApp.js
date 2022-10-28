@@ -88,6 +88,8 @@ function HypothesisApp({ auth, frameSync, settings, session, toastMessenger }) {
 
   const isSidebar = route === 'sidebar';
 
+  let darkModeEnabled = false;
+
   useEffect(() => {
     if (shouldAutoDisplayTutorial(isSidebar, profile, settings)) {
       store.openSidebarPanel('help');
@@ -168,10 +170,11 @@ function HypothesisApp({ auth, frameSync, settings, session, toastMessenger }) {
         'h-full min-h-full overflow-scroll',
         // Precise padding to align with annotation cards in content
         // Larger padding on bottom for wide screens
-        'lg:pb-16 bg-grey-2',
+        'lg:pb-16 bg-grey-2 dark:bg-grey-9',
         'js-thread-list-scroll-root',
         {
           'theme-clean': isThemeClean,
+          'bg-grey-9': darkModeEnabled,
           // Make room at top for the TopBar (40px) plus custom padding (9px)
           // but not in the Notebook, which doesn't use the TopBar
           'pt-[49px]': route !== 'notebook',

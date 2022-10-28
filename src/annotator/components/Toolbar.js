@@ -75,9 +75,14 @@ function StatusNotifier({ highlightsVisible }) {
  *   Ref that gets set to the toolbar button for toggling the sidebar.
  *   This is exposed to enable the drag-to-resize functionality of this
  *   button.
+ * @prop {() => void} toggleDarkMode -
+ *   Callback to toggle dark/light mode in the Toolbar.
  * @prop {boolean} [useMinimalControls] -
  *   If true, all controls are hidden except for the "Close sidebar" button
  *   when the sidebar is open. This is enabled in the "clean" theme.
+ * @prop {boolean} [darkModeEnabled] -
+ *   If true, changes tool style into Dark Mode.
+ *   This is enabled in the "dark" and "light" themes.
  */
 
 /**
@@ -99,7 +104,9 @@ export default function Toolbar({
   toggleHighlights,
   toggleSidebar,
   toggleSidebarRef,
+  toggleDarkMode,
   useMinimalControls = false,
+  darkModeEnabled = false,
 }) {
   return (
     <div
@@ -163,6 +170,16 @@ export default function Toolbar({
               }
               icon={newAnnotationType === 'note' ? 'note' : 'annotate'}
               onClick={createAnnotation}
+            />
+            <ToolbarButton
+              title={
+                darkModeEnabled
+                  ? 'Click to use Dark Mode'
+                  : 'Click to use Light Mode'
+              }
+              icon={darkModeEnabled ? 'file-code-filled' : 'file-code'}
+              selected={darkModeEnabled}
+              onClick={toggleDarkMode}
             />
           </div>
           <StatusNotifier highlightsVisible={showHighlights} />

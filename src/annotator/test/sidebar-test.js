@@ -240,6 +240,17 @@ describe('Sidebar', () => {
       FakeToolbarController.args[0][1].setSidebarOpen(false);
       assert.called(sidebar.close);
     });
+    
+    it('enables or disables dark mode when corresponding toolbar button is clicked', () => {
+      const sidebar = createSidebar();
+      sinon.stub(sidebar, 'setDarkModeEnabled');
+      
+      FakeToolbarController.args[0][1].setDarkModeEnabled(true);
+      assert.called(sidebar.setDarkModeEnabled);
+
+      FakeToolbarController.args[0][1].setDarkModeEnabled(false);
+      assert.called(sidebar.setDarkModeEnabled);
+    });    
 
     it('shows or hides highlights when toolbar button is clicked', () => {
       const sidebar = createSidebar();
@@ -330,6 +341,7 @@ describe('Sidebar', () => {
       emitGuestEvent('highlightsVisibleChanged', false);
       assert.isFalse(fakeToolbar.highlightsVisible);
     });
+    
   });
 
   describe('events from sidebar frame', () => {

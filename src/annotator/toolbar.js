@@ -7,6 +7,7 @@ import Toolbar from './components/Toolbar';
  * @prop {() => void} createAnnotation
  * @prop {(open: boolean) => void} setSidebarOpen
  * @prop {(visible: boolean) => void} setHighlightsVisible
+ * @prop {(enabled: boolean) => void} setDarkModeEnabled
  */
 
 /**
@@ -21,7 +22,12 @@ export class ToolbarController {
    * @param {ToolbarOptions} options
    */
   constructor(container, options) {
-    const { createAnnotation, setSidebarOpen, setHighlightsVisible } = options;
+    const {
+      createAnnotation,
+      setSidebarOpen,
+      setHighlightsVisible,
+      setDarkModeEnabled,
+    } = options;
 
     this._container = container;
 
@@ -31,12 +37,14 @@ export class ToolbarController {
     this._newAnnotationType = 'note';
 
     this._highlightsVisible = false;
+    this._darkModeEnabled = false;
     this._sidebarOpen = false;
 
     this._closeSidebar = () => setSidebarOpen(false);
     this._toggleSidebar = () => setSidebarOpen(!this._sidebarOpen);
     this._toggleHighlights = () =>
       setHighlightsVisible(!this._highlightsVisible);
+    this._toggleDarkMode = () => setDarkModeEnabled(!this._darkModeEnabled);
     this._createAnnotation = () => {
       createAnnotation();
       setSidebarOpen(true);
@@ -105,6 +113,18 @@ export class ToolbarController {
   }
 
   /**
+   * Enable Dark/Light mode
+   */
+  set darkModeEnabled(enabled) {
+    this._darkModeEnabled = enabled;
+    this.render();
+  }
+
+  get darkModeEnabled() {
+    return this._darkModeEnabled;
+  }
+
+  /**
    * Return the DOM element that toggles the sidebar's visibility.
    *
    * @type {HTMLButtonElement}
@@ -124,7 +144,9 @@ export class ToolbarController {
         toggleHighlights={this._toggleHighlights}
         toggleSidebar={this._toggleSidebar}
         toggleSidebarRef={this._sidebarToggleButton}
+        toggleDarkMode={this._toggleDarkMode}
         useMinimalControls={this.useMinimalControls}
+        darkModeEnabled={this._darkModeEnabled}
       />,
       this._container
     );

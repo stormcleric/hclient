@@ -3,7 +3,7 @@ import plugin from 'tailwindcss/plugin.js';
 
 const focusBlue = '#59a7e8';
 
-export default {
+export default {  
   presets: [tailwindConfig],
   content: [
     './src/sidebar/components/**/*.{js,ts,tsx}',
@@ -13,6 +13,7 @@ export default {
     // This module references `sidebar-frame` and related classes
     './src/annotator/sidebar.{js,ts,tsx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       animation: {
